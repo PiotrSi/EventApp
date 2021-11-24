@@ -38,8 +38,9 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
                 is Resource.Success -> {
                     lifecycleScope.launch {
                         viewModel.saveAccessTokens(
-                            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3NzcyIsImlhdCI6MTYzNjM4OTgwNiwiZXhwIjoxNjM2NDc2MjA2fQ.vmjy7k_X0o-VbBpUt-eyGIMgMv5flaB3jRkzhVbouXgpabESfAq8zb_vH_dSJDQlrLIJ-hf2GSsiwkIDQ6KLog",
-//                            it.value.accessToken!!,
+//                            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3NzcyIsImlhdCI6MTYzNzYxMDgwMH0.MasJGXTrE3Rwo61wsmCTHd-r6Wpsin5TvTeLi-z8UuAWmMeBZ4dLavMUmzpYxs5DwHXPFe-ToZP3q0uYHDJ2Sw"
+                            it.value.accessToken!!
+                            ,
 //                            it.value.refreshToken!!
                             "sad6s7a85fds6g7df8s7"
                         )

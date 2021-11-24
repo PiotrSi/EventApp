@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pracav2.FavoritesFragment
 import com.example.pracav2.R
+import com.example.pracav2.data.UserPreferences
 import com.example.pracav2.data.network.Resource
 import com.example.pracav2.data.responses.EventResponseItem
 import com.example.pracav2.databinding.FragmentHomeBinding
@@ -21,6 +22,8 @@ import com.example.pracav2.ui.handleApiError
 import com.example.pracav2.ui.logout
 import com.example.pracav2.ui.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener{
@@ -30,6 +33,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener
     private val myAdapter by lazy {EventsViewAdapter(this@HomeFragment)}
     private val itemViewModel: ItemViewModel by activityViewModels()
 
+    private var idUser: Int = -1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,8 +42,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener
 
 
 
-//        viewModel.getUser()
-        viewModel.getEvents()
+        viewModel.getUser()
+        val userPreferences = UserPreferences(requireContext())
+        val token = runBlocking { userPreferences.accessToken.first() }
+        if (token != null) {
+            viewModel.getEvents("Bearer $token")
+        }
 
         setapRecyclerview()
 
@@ -47,9 +55,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener
             when (it) {
                 is Resource.Success -> {
                     binding.progressbar.visible(false)
-
                     myAdapter.setData(it.value)
-
+                    it.value.forEach{
+                        if(it.czyZapisano){
+//                            myEvents.add(it)
+                        }else {it.id}
+                    }
 //                    binding.recyclerView.apply{
 //                        setHasFixedSize(true)
 //                        layoutManager = LinearLayoutManager(activity)
@@ -63,7 +74,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener
                     handleApiError(it)
                 }
             }
-
 
 //            viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
 //                recycler_view_movies.also {
@@ -81,21 +91,24 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener
 
 
 
+
+
+
 //        viewModel.user.observe(viewLifecycleOwner, Observer {
 //            when (it) {
 //                is Resource.Success -> {
-//                    binding.progressbar.visible(false)
-////                    updateUI(it.value.user)
+//                    Toast.makeText(requireContext(), it.value.message, Toast.LENGTH_SHORT).show()
 //                }
 //                is Resource.Loading -> {
-//                    binding.progressbar.visible(true)
+////                    binding.progressbar.visible(true)
 //                }
-//                is Resource.Failure -> {
-//                    handleApiError(it)
+//                is Resource.Failure -> {   //TODO TUTAJ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+////                    handleApiError(it)
+//                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
 //                }
 //            }
 //        })
-
+            idUser = 3
 
 
 
@@ -103,7 +116,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener
             //val action = HomeFragmentDirections.actionHomeFragment2ToDescriptionFragment()
             //findNavController().navigate(action)
             //view.findNavController().navigate(R.id.action_homeFragment_to_descriptionFragment)
-            //logout()
+            logout()
         }
     }
 
@@ -114,12 +127,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener
 
 
     override fun onItemClick(view: View, event: EventResponseItem) {
-        Toast.makeText(requireContext(), "kliknięto obrazek "+event.name, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(requireContext(), "kliknięto obrazek "+event.name, Toast.LENGTH_SHORT).show()
         itemViewModel.selectItem(event)
         val action = HomeFragmentDirections.actionHomeFragment2ToDescriptionFragment()
         findNavController().navigate(action)
-
-
     }
 
 //    private fun updateUI(user: User) {

@@ -1,15 +1,19 @@
 package com.example.pracav2.data.responses
 
 data class EventResponseItem (
-    val data_end: Any,
-    val data_start: Any,
+    val id: Int,
+    val czyMoznaOceniac: Boolean,
+    val czyMoznaZapisac: Boolean,
+    val czyZapisano: Boolean,
+    val name: String,
+    val data_end: String,
+    val data_start: String,
     val department: String,
     val description: String,
     val eventType: String,
-    val id: Int,
-    val imageData: String,
     val imageSize: Int,
     val max_number_of_contestant: Int,
-    val name: String,
-    val statusEvent: String
+    val rate: Int,
+    val statusEvent: String,  //Zaakceptowany
+    val imageData: String
 )

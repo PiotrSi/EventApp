@@ -2,6 +2,9 @@ package com.example.pracav2.data.network
 
 import android.content.Context
 import androidx.viewbinding.BuildConfig
+import com.example.pracav2.data.UserPreferences
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,7 +17,6 @@ class RemoteDataSource @Inject constructor() {
     companion object {
         private const val BASE_URL = "http://10.0.2.2:8080/api/"
     }
-
     fun <Api> buildApi(
         api: Class<Api>,
         context: Context
@@ -53,3 +55,34 @@ class RemoteDataSource @Inject constructor() {
             }.build()
     }
 }
+//    fun <Api> buildApi(
+//        api: Class<Api>,
+//        context: Context
+//    ): Api {
+//
+//
+//        //retrofit client
+//        return Retrofit.Builder()
+//            .baseUrl(BASE_URL)
+//            .client(
+//                OkHttpClient.Builder()
+//                    .addInterceptor { chain ->
+//                        chain.proceed(chain.request().newBuilder().also {
+//                            it.addHeader("Authorization", "Bearer ${token}")
+//                        }.build())
+//                    }
+//                    .also { client ->
+//                        if (BuildConfig.DEBUG) {
+//                            val logging = HttpLoggingInterceptor()
+//                            logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+//                            client.addInterceptor(logging)
+//                        }
+//                    }.build()
+//            )
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//            .create(api)
+//    }
+//}
+
+
