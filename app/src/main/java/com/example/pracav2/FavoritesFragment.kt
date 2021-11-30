@@ -41,7 +41,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), RecyclerViewCli
         val userPreferences = UserPreferences(requireContext())
         val token = runBlocking { userPreferences.refreshToken.first() }
         if (token != null) {
-            viewModel.getEvents(token)
+            viewModel.getEvents("asdad $token")
         }
 
         setapRecyclerview()
@@ -50,15 +50,19 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), RecyclerViewCli
             when (event) {
                 is Resource.Success -> {
 //                    binding.progressbar.visible(false)
-//                     lateinit var  myEvents :ArrayList<EventResponseItem>
+
+                    var  myEvents :ArrayList<EventResponseItem> = arrayListOf()
                     event.value.forEach{
                         if(it.czyZapisano){
-//                            myEvents.add(it)
-                        }else {it.id}
+                            myEvents.add(it)
+                        }//else {it.id}
                     }
-//                    if(myEvents!=null) {
-//                        myAdapter.setData(myEvents)
-//                    }
+                    if(myEvents.isEmpty()) {
+                        binding.textView2.visibility = View.VISIBLE
+                    }else{
+                        binding.textView2.visibility = View.GONE
+                        myAdapter.setData(myEvents)
+                    }
                 }
                 is Resource.Loading -> {
 //                    binding.progressbar.visible(true)

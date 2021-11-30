@@ -47,7 +47,8 @@ class EventsViewAdapter(
 //                imgString = this.imageData
 //                val imageBytes = Base64.decode(imgString, Base64.DEFAULT)
 //                val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                binding.imageView.setImageBitmap(convertImg(this.imageData))
+                if((this.imageData) != null){
+                binding.imageView.setImageBitmap(convertImg(this.imageData))}
             }
         }
 

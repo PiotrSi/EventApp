@@ -1,4 +1,6 @@
 package com.example.pracav2.data.responses
 
-class DepResponseItem {
-}
+data class DepResponseItem(
+    val id: Int,
+    val name: String
+)

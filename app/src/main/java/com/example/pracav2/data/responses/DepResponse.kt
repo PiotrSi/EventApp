@@ -1,4 +1,3 @@
 package com.example.pracav2.data.responses
 
-class DepResponse {
-}
+class DepResponse : ArrayList<DepResponseItem>()

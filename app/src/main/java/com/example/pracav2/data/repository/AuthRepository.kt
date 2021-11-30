@@ -16,8 +16,17 @@ class AuthRepository @Inject constructor(
         api.login(requestBody)
     }
 
+    suspend fun signup(
+        requestBody : RequestBody
+    ) = safeApiCall{
+        api.signup(requestBody)
+    }
+
     suspend fun saveAccessTokens(accessToken: String, refreshToken: String) {
         preferences.saveAccessTokens(accessToken, refreshToken)
+    }
+    suspend fun getDep() = safeApiCall{
+        api.getDep()
     }
 
 }

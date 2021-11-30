@@ -27,10 +27,18 @@
         android:id="@+id/profileFragment"
         android:name="com.example.pracav2.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_analyzeFragment"
+            app:destination="@id/analyzeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/descriptionFragment"
         android:name="com.example.pracav2.ui.home.DescriptionFragment"
         android:label="fragment_description"
         tools:layout="@layout/fragment_description" />
+    <fragment
+        android:id="@+id/analyzeFragment"
+        android:name="com.example.pracav2.AnalyzeFragment"
+        android:label="AnalyzeFragment" />
 </navigation>

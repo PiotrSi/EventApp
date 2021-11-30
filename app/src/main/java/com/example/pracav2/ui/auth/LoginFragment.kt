@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.example.pracav2.R
 import com.example.pracav2.data.network.Resource
 import com.example.pracav2.databinding.FragmentLoginBinding
@@ -54,6 +55,10 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
         binding.password.addTextChangedListener {
             val email = binding.login.text.toString().trim()
             binding.loginButton.enable(email.isNotEmpty() && it.toString().isNotEmpty())
+        }
+        binding.signup.setOnClickListener{ view ->
+            view.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+
         }
 
         binding.loginButton.setOnClickListener {

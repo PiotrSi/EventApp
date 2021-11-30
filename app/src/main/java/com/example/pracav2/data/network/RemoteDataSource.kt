@@ -21,10 +21,15 @@ class RemoteDataSource @Inject constructor() {
         api: Class<Api>,
         context: Context
     ): Api {
+        val appContext = context.applicationContext
+        val userPreferences = UserPreferences(appContext)
+        val token = runBlocking { userPreferences.accessToken.first() }
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
         val authenticator = TokenAuthenticator(context, buildTokenApi())
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(getRetrofitClient(authenticator))
+            .client(getRetrofitClient(authenticator,token))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(api)
@@ -39,11 +44,17 @@ class RemoteDataSource @Inject constructor() {
             .create(TokenRefreshApi::class.java)
     }
 
-    private fun getRetrofitClient(authenticator: Authenticator? = null): OkHttpClient {
+    private fun getRetrofitClient(authenticator: Authenticator? = null,token :String? =null): OkHttpClient {
+        authenticator.toString()
+        val logging2 = HttpLoggingInterceptor()
+        logging2.setLevel(HttpLoggingInterceptor.Level.BODY)
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 chain.proceed(chain.request().newBuilder().also {
                     it.addHeader("Accept", "application/json")
+                    if (token != null) {
+                        it.addHeader("Authorization", "Bearer $token")
+                    }
                 }.build())
             }.also { client ->
                 authenticator?.let { client.authenticator(it) }
@@ -52,7 +63,7 @@ class RemoteDataSource @Inject constructor() {
                     logging.setLevel(HttpLoggingInterceptor.Level.BODY)
                     client.addInterceptor(logging)
                 }
-            }.build()
+            }.addInterceptor(logging2).build()
     }
 }
 //    fun <Api> buildApi(

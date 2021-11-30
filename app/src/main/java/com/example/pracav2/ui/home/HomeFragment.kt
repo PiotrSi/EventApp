@@ -24,9 +24,14 @@ import com.example.pracav2.ui.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import retrofit2.http.Field
+import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener{
+
+
 
     private lateinit var binding: FragmentHomeBinding
     private val viewModel by viewModels<HomeViewModel>()
@@ -41,10 +46,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener
         binding.progressbar.visible(false)
 
 
-
         viewModel.getUser()
         val userPreferences = UserPreferences(requireContext())
-        val token = runBlocking { userPreferences.accessToken.first() }
+        val token: String? = runBlocking { userPreferences.accessToken.first() }
         if (token != null) {
             viewModel.getEvents("Bearer $token")
         }
@@ -94,20 +98,20 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener
 
 
 
-//        viewModel.user.observe(viewLifecycleOwner, Observer {
-//            when (it) {
-//                is Resource.Success -> {
-//                    Toast.makeText(requireContext(), it.value.message, Toast.LENGTH_SHORT).show()
-//                }
-//                is Resource.Loading -> {
-////                    binding.progressbar.visible(true)
-//                }
-//                is Resource.Failure -> {   //TODO TUTAJ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-////                    handleApiError(it)
-//                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        })
+        viewModel.user.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is Resource.Success -> {
+                    Toast.makeText(requireContext(), it.value.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> {
+//                    binding.progressbar.visible(true)
+                }
+                is Resource.Failure -> {   //TODO TUTAJ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//                    handleApiError(it)
+                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
             idUser = 3
 
 
