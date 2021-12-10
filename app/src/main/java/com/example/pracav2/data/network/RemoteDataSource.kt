@@ -29,7 +29,7 @@ class RemoteDataSource @Inject constructor() {
         val authenticator = TokenAuthenticator(context, buildTokenApi())
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(getRetrofitClient(authenticator,token))
+            .client(getRetrofitClient(null,token))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(api)

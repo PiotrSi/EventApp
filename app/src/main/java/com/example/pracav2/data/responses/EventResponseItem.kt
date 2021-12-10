@@ -15,7 +15,7 @@ data class EventResponseItem (
     val eventType: String,
     val imageSize: Int,
     val max_number_of_contestant: Int,
-    val rate: Int,
+    val rate: Float,
     val statusEvent: String,  //Zaakceptowany
-    val imageData: String
+    val imageData: String?
 )

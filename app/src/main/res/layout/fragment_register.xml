@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerVertical="true"
-    android:orientation="vertical"
-    android:background="@color/background_login">
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +27,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/login_edit_background"
+            android:ems="10"
+            android:inputType="textEmailAddress"
             android:drawableStart="@drawable/ic_email"
             android:drawablePadding="10dp"
             android:hint="@string/email"
@@ -41,7 +41,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/login_edit_background"
+            android:ems="10"
+            android:inputType="textPassword"
             android:drawableStart="@drawable/ic_padlock_password"
             android:drawablePadding="10dp"
             android:hint="@string/password"
@@ -87,20 +88,13 @@
 <!--            android:minHeight="50dp"/>-->
         <Spinner
             android:id="@+id/planets_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="200dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="35dp"
+            android:layout_gravity="center" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="Forgot Password ?"
-            android:padding="10dp"
-            android:layout_gravity="end"/>
-
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/signup_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,16 +102,12 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/button_background"
+            android:paddingVertical="12dp"
+            app:cornerRadius="20sp"
             android:text="Sign UP"
             android:textSize="21sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Sign up"
-            android:textSize="21sp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,16 +3,12 @@ package com.example.pracav2.ui.home
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pracav2.FavoritesFragment
 import com.example.pracav2.R
 import com.example.pracav2.data.UserPreferences
 import com.example.pracav2.data.network.Resource
@@ -24,9 +20,6 @@ import com.example.pracav2.ui.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import retrofit2.http.Field
-import javax.inject.Inject
-import javax.inject.Named
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener{
@@ -38,33 +31,33 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener
     private val myAdapter by lazy {EventsViewAdapter(this@HomeFragment)}
     private val itemViewModel: ItemViewModel by activityViewModels()
 
-    private var idUser: Int = -1
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
-        binding.progressbar.visible(false)
 
 
-        viewModel.getUser()
+
         val userPreferences = UserPreferences(requireContext())
         val token: String? = runBlocking { userPreferences.accessToken.first() }
         if (token != null) {
-            viewModel.getEvents("Bearer $token")
+//            viewModel.getEvents("Bearer $token")
+            viewModel.getEvents()
         }
 
         setapRecyclerview()
 
-        viewModel.event.observe(viewLifecycleOwner, Observer {
+        viewModel.event.observe(viewLifecycleOwner, Observer { it ->
             when (it) {
                 is Resource.Success -> {
                     binding.progressbar.visible(false)
                     myAdapter.setData(it.value)
-                    it.value.forEach{
-                        if(it.czyZapisano){
-//                            myEvents.add(it)
-                        }else {it.id}
-                    }
+//                    it.value.forEach{
+//                        if(it.czyZapisano){
+////                            myEvents.add(it)
+//                        }else {it.id}
+//                    }
 //                    binding.recyclerView.apply{
 //                        setHasFixedSize(true)
 //                        layoutManager = LinearLayoutManager(activity)
@@ -96,26 +89,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener
 
 
 
-
-
-        viewModel.user.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                is Resource.Success -> {
-                    Toast.makeText(requireContext(), it.value.message, Toast.LENGTH_SHORT).show()
-                }
-                is Resource.Loading -> {
-//                    binding.progressbar.visible(true)
-                }
-                is Resource.Failure -> {   //TODO TUTAJ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//                    handleApiError(it)
-                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
-            idUser = 3
-
-
-
         binding.buttonLogout.setOnClickListener {
             //val action = HomeFragmentDirections.actionHomeFragment2ToDescriptionFragment()
             //findNavController().navigate(action)
@@ -131,17 +104,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener
 
 
     override fun onItemClick(view: View, event: EventResponseItem) {
-//        Toast.makeText(requireContext(), "kliknięto obrazek "+event.name, Toast.LENGTH_SHORT).show()
         itemViewModel.selectItem(event)
-        val action = HomeFragmentDirections.actionHomeFragment2ToDescriptionFragment()
+        val action = HomeFragmentDirections.actionHomeFragment2ToDescriptionFragment("home")
         findNavController().navigate(action)
     }
 
-//    private fun updateUI(user: User) {
-//        with(binding) {
-//            textViewId.text = user.id.toString()
-//            textViewName.text = user.name
-//            textViewEmail.text = user.email
-//        }
-//    }
+
 }

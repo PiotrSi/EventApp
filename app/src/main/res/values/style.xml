@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="text">
+        <item name="android:textSize">30sp</item>
+        <item name="android:paddingTop">5dp</item>
+    </style>
+
+    <style name="descriptionText">
+        <item name="android:textSize">18sp</item>
+    </style>
+</resources>

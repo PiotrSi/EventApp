@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerVertical="true"
-    android:orientation="vertical"
-    android:background="@color/background_login">
+    android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -30,7 +29,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/login_edit_background"
+            android:ems="10"
+            android:inputType="textEmailAddress"
             android:drawableStart="@drawable/ic_person_login"
             android:drawablePadding="10dp"
             android:hint="@string/email"
@@ -43,7 +43,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/login_edit_background"
+            android:inputType="textPassword"
+            android:ems="10"
             android:drawableStart="@drawable/ic_padlock_password"
             android:drawablePadding="10dp"
             android:hint="@string/password"
@@ -58,17 +59,19 @@
             android:padding="10dp"
             android:text="@string/forget_password" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/log_in"
+            app:cornerRadius="20sp"
+            android:paddingVertical="12dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/button_background"
-            android:text="@string/log_in"
-            android:textSize="21sp" />
+            android:layout_marginBottom="20dp"/>
+
+
 
         <TextView
             android:id="@+id/signup"
@@ -92,3 +95,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--
+<androidx.appcompat.widget.AppCompatButton
+android:id="@+id/login_button2"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginStart="20dp"
+android:layout_marginTop="20dp"
+android:layout_marginEnd="20dp"
+android:layout_marginBottom="20dp"
+
+
+android:text="@string/log_in"
+android:textSize="21sp" />-->

@@ -15,11 +15,19 @@ class UserRepository @Inject constructor(
 
     suspend fun getUser() = safeApiCall { api.getUser() }
 
-    suspend fun getEvents(token:String) = safeApiCall { api.getEvents(token) }
+    suspend fun getEvents() = safeApiCall { api.getEvents() }
+
+    suspend fun getUserInfo() = safeApiCall { api.getUserInfo() }
 
     suspend fun enroll(
         requestBody : RequestBody
     ) = safeApiCall {
         api.enroll(requestBody)
+    }
+
+    suspend fun rate(
+        requestBody : RequestBody
+    ) = safeApiCall {
+        api.rate(requestBody)
     }
 }

@@ -36,9 +36,29 @@
         android:id="@+id/descriptionFragment"
         android:name="com.example.pracav2.ui.home.DescriptionFragment"
         android:label="fragment_description"
-        tools:layout="@layout/fragment_description" />
+        tools:layout="@layout/fragment_description" >
+        <argument
+            android:name="from"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_descriptionFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2"
+            app:popUpTo="@+id/homeFragment2"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_descriptionFragment_to_favoritesFragment"
+            app:destination="@id/favoritesFragment"
+            app:popUpTo="@+id/favoritesFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/analyzeFragment"
         android:name="com.example.pracav2.AnalyzeFragment"
-        android:label="AnalyzeFragment" />
+        android:label="AnalyzeFragment" >
+        <action
+            android:id="@+id/action_analyzeFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@+id/profileFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

@@ -7,6 +7,7 @@ import com.example.pracav2.data.network.Resource
 import com.example.pracav2.data.repository.UserRepository
 import com.example.pracav2.data.responses.EventResponse
 import com.example.pracav2.data.responses.MessageResponse
+import com.example.pracav2.data.responses.UserInfoResponse
 import com.example.pracav2.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -31,21 +32,38 @@ class HomeViewModel @Inject constructor(
     val user: MutableLiveData<Resource<MessageResponse>>
         get() = _user
 
+    private val _userInfo: MutableLiveData<Resource<UserInfoResponse>> = MutableLiveData()
+    val userInfo: MutableLiveData<Resource<UserInfoResponse>>
+        get() = _userInfo
+
+    private val _rate: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
+    val rate: MutableLiveData<Resource<MessageResponse>>
+        get() = _rate
+
 //    private val _userDetail: MutableLiveData<Resource<User>>
 
     fun getUser()= viewModelScope.launch {
         _user.value = repository.getUser()
     }
 
+    fun getUserInfo()= viewModelScope.launch {
+        _userInfo.value = repository.getUserInfo()
+    }
 
-    fun getEvents(token :String)= viewModelScope.launch {
-        _event.value = repository.getEvents(token)
+    fun getEvents()= viewModelScope.launch {
+        _event.value = repository.getEvents()
     }
 
     fun enroll(
         requestBody : RequestBody
     ) = viewModelScope.launch {
         _enroll.value =  repository.enroll(requestBody)
+    }
+
+    fun rate(
+        requestBody : RequestBody
+    ) = viewModelScope.launch {
+        _rate.value =  repository.rate(requestBody)
     }
 
 }
