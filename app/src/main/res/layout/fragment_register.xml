@@ -48,31 +48,20 @@
             android:hint="@string/password"
             android:minHeight="50dp"/>
 
-<!--        <EditText-->
-<!--            android:id="@+id/name"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:layout_marginEnd="20dp"-->
-<!--            android:background="@drawable/login_edit_background"-->
-<!--            android:drawableStart="@drawable/ic_person_login"-->
-<!--            android:drawablePadding="10dp"-->
-<!--            android:hint="@string/name"-->
-<!--            android:minHeight="50dp"/>-->
+        <EditText
+            android:id="@+id/password_repeat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:drawableStart="@drawable/ic_padlock_password"
+            android:drawablePadding="10dp"
+            android:hint="@string/password_repeat"
+            android:minHeight="50dp"/>
 
-<!--        <EditText-->
-<!--            android:id="@+id/surname"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:layout_marginEnd="20dp"-->
-<!--            android:background="@drawable/login_edit_background"-->
-<!--            android:drawableStart="@drawable/ic_person_login"-->
-<!--            android:drawablePadding="10dp"-->
-<!--            android:hint="@string/surname"-->
-<!--            android:minHeight="50dp"/>-->
 
 <!--        <EditText-->
 <!--            android:id="@+id/phone"-->
@@ -86,11 +75,23 @@
 <!--            android:drawablePadding="10dp"-->
 <!--            android:hint="@string/phone"-->
 <!--            android:minHeight="50dp"/>-->
+
+        <TextView
+            android:id="@+id/textView"
+            android:labelFor="@id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="20dp"
+            android:text="Select Department"
+            android:gravity="center"
+            android:layout_gravity="center" />
+
         <Spinner
-            android:id="@+id/planets_spinner"
+            android:id="@+id/spinner"
             android:layout_width="200dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="35dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/black"
             android:layout_gravity="center" />
 
 

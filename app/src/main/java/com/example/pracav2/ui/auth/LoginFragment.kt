@@ -1,7 +1,9 @@
 package com.example.pracav2.ui.auth
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,16 +18,22 @@ import com.example.pracav2.ui.handleApiError
 import com.example.pracav2.ui.home.HomeActivity
 import com.example.pracav2.ui.startNewActivity
 import com.example.pracav2.ui.visible
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class LoginFragment: Fragment(R.layout.fragment_login) {
 
     private lateinit var binding: FragmentLoginBinding
     private val viewModel by viewModels<AuthViewModel>()
+    val EMAIL_ADDRESS_PATTERN = Pattern.compile(
+        "[a-zA-Z]{1,50}\\.[a-zA-Z0-9]{1,50}"+
+                "\\@pollub\\.edu\\.pl"
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,9 +76,15 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
 
     private fun login() {
         val email = binding.login.text.toString().trim()
-        val password = binding.password.text.toString().trim()
-        val jsonObjectString = "{\"username\":\"$email\" , \"password\":\"$password\"}"
-        val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
-        viewModel.login(requestBody)
+       if(isValidEmail(email)) {
+           val password = binding.password.text.toString().trim()
+           val jsonObjectString = "{\"username\":\"$email\" , \"password\":\"$password\"}"
+           val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+           viewModel.login(requestBody)
+       }else Snackbar.make(requireView(),"invalid email",Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun isValidEmail(str: String): Boolean{
+        return EMAIL_ADDRESS_PATTERN.matcher(str).matches()
     }
 }

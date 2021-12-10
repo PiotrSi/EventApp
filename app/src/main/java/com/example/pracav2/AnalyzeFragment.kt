@@ -128,6 +128,8 @@ class AnalyzeFragment : Fragment(R.layout.fragment_analyze) {
         pieDataSet.valueTextSize = 15f
         binding.chart.setEntryLabelColor(Color.BLACK)
         binding.chart.legend.isEnabled = false
+        binding.chart.centerText = "Your events in the last 6 months"
+        binding.chart.setCenterTextSize(15f)
 
 
     }

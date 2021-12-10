@@ -2,14 +2,12 @@ package com.example.pracav2
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pracav2.data.UserPreferences
 import com.example.pracav2.data.network.Resource
 import com.example.pracav2.data.responses.EventResponseItem
 import com.example.pracav2.databinding.FragmentFavoritesBinding
@@ -17,8 +15,6 @@ import com.example.pracav2.ui.handleApiError
 import com.example.pracav2.ui.home.*
 import com.example.pracav2.ui.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class FavoritesFragment : Fragment(R.layout.fragment_favorites), RecyclerViewClickListener {
@@ -33,11 +29,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), RecyclerViewCli
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFavoritesBinding.bind(view)
 
-        val userPreferences = UserPreferences(requireContext())
-        val token = runBlocking { userPreferences.refreshToken.first() }
-//        if (token != null) {
-//            viewModel.getEvents("asdad $token")
-//        }
+
         viewModel.getEvents()
 
         setupRecyclerview()
