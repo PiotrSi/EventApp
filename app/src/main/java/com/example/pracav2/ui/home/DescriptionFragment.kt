@@ -64,12 +64,9 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
             idEvent = event.id
 
 
-
             if(event.czyMoznaZapisac && !event.czyZapisano){
                 binding.signUpButton.visibility = View.VISIBLE
             }else {binding.signUpButton.visibility = View.GONE}
-
-
 
 
             if(event.czyMoznaOceniac && event.rate == 0f)
@@ -86,17 +83,13 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
         })
 
 
-
-
         viewModel.enroll.observe(viewLifecycleOwner, Observer {enroll->
             when (enroll) {
                 is Resource.Success -> {
-//                    binding.progressbar.visible(false)
                     binding.signUpButton.visibility = View.GONE
                     Toast.makeText(requireContext(), enroll.value.message, Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Loading -> {
-//                    binding.progressbar.visible(true)
                 }
                 is Resource.Failure -> {
                     handleApiError(enroll)
@@ -108,12 +101,10 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
         viewModel.rate.observe(viewLifecycleOwner, Observer {rate->
             when (rate) {
                 is Resource.Success -> {
-//                    binding.progressbar.visible(false)
                     binding.rateButton.visibility = View.GONE
                     Toast.makeText(requireContext(), rate.value.message, Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Loading -> {
-//                    binding.progressbar.visible(true)
                 }
                 is Resource.Failure -> {
                     handleApiError(rate)
@@ -122,7 +113,6 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
         })
 
         binding.signUpButton.setOnClickListener {
-            //val body = "{\"eventId\":${args.userId} , \"userId\":$idEvent, \"roleInEvent\":\"contestant\"}"
             val body1 = "{\"eventId\": $idEvent , \"roleInEvent\":\"contestant\"}"
             val requestBody = body1.toRequestBody("application/json".toMediaTypeOrNull())
             viewModel.enroll(requestBody)
@@ -149,7 +139,7 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
         val year = cal.get(Calendar.YEAR).toString()
         val month = (cal.get(Calendar.MONTH)+1).toString()
         val day = cal.get(Calendar.DAY_OF_MONTH).toString()
-//        val hour = cal.get(Calendar.HOUR_OF_DAY).toString()
+
         val hour = if(cal.get(Calendar.HOUR_OF_DAY) < 10) {
             "0${cal.get(Calendar.HOUR_OF_DAY)}"
         } else cal.get(Calendar.HOUR_OF_DAY).toString()
@@ -159,6 +149,5 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
 
         return "$hour:$min  $day/$month/$year"
     }
-
 
 }

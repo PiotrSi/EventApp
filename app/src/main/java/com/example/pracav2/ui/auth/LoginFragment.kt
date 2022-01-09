@@ -47,10 +47,8 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
                 is Resource.Success -> {
                     lifecycleScope.launch {
                         viewModel.saveAccessTokens(
-//                            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3NzcyIsImlhdCI6MTYzNzYxMDgwMH0.MasJGXTrE3Rwo61wsmCTHd-r6Wpsin5TvTeLi-z8UuAWmMeBZ4dLavMUmzpYxs5DwHXPFe-ToZP3q0uYHDJ2Sw"
                             it.value.accessToken!!
                             ,
-//                            it.value.refreshToken!!
                             "sad6s7a85fds6g7df8s7"
                         )
                         requireActivity().startNewActivity(HomeActivity::class.java)
@@ -64,9 +62,8 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
             val email = binding.login.text.toString().trim()
             binding.loginButton.enable(email.isNotEmpty() && it.toString().isNotEmpty())
         }
-        binding.signup.setOnClickListener{ view ->
+        binding.signup.setOnClickListener{
             view.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
-
         }
 
         binding.loginButton.setOnClickListener {
@@ -76,15 +73,12 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
 
     private fun login() {
         val email = binding.login.text.toString().trim()
-       if(isValidEmail(email)) {
-           val password = binding.password.text.toString().trim()
-           val jsonObjectString = "{\"username\":\"$email\" , \"password\":\"$password\"}"
-           val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
-           viewModel.login(requestBody)
-       }else Snackbar.make(requireView(),"invalid email",Snackbar.LENGTH_SHORT).show()
+        val password = binding.password.text.toString().trim()
+        val jsonObjectString = "{\"username\":\"$email\" , \"password\":\"$password\"}"
+        val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+        viewModel.login(requestBody)
     }
 
-    private fun isValidEmail(str: String): Boolean{
-        return EMAIL_ADDRESS_PATTERN.matcher(str).matches()
-    }
+
+
 }

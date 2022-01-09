@@ -15,17 +15,12 @@ import com.example.pracav2.ui.convertImg
 import okhttp3.internal.notify
 
 class EventsViewAdapter(
-//    private val events: EventResponse,
     private val listener: RecyclerViewClickListener
 ) :RecyclerView.Adapter<EventsViewAdapter.EventsViewHolder>(){
 
     private var events = emptyList<EventResponseItem>()
 
-//    var item = listOf<EventResponse>()
-//    set(value) {
-//        field = value
-//        notifyDataSetChanged()
-//    }
+
 
     inner class EventsViewHolder (
         val binding: ListItemBinding
@@ -42,11 +37,7 @@ class EventsViewAdapter(
         with(holder){
             with(events[position]){
                 binding.title.text = this.name
-//                var imgString : String? = null
 
-//                imgString = this.imageData
-//                val imageBytes = Base64.decode(imgString, Base64.DEFAULT)
-//                val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                 if((this.imageData) != null){
                 binding.imageView.setImageBitmap(convertImg(this.imageData))}
             }

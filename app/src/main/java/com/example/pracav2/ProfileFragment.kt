@@ -2,16 +2,20 @@ package com.example.pracav2
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.example.pracav2.data.UserPreferences
 import com.example.pracav2.data.network.Resource
 import com.example.pracav2.databinding.FragmentProfileBinding
 import com.example.pracav2.ui.handleApiError
 import com.example.pracav2.ui.home.HomeViewModel
 import com.example.pracav2.ui.logout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
@@ -33,15 +37,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         viewModel.userInfo.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Success -> {
-//                    binding.progressbar.visible(false)
                     binding.email.text = it.value.username
                     binding.department.text = it.value.department
                     binding.nrSigned.text = it.value.numberSignedEvents.toString()
                     binding.averageRate.text = String.format("%.2f", it.value.averageRate)
-//                    binding.averageRate.text = it.value.averageRate.toString()
                 }
                 is Resource.Loading -> {
-//                    binding.progressbar.visible(true)
                 }
                 is Resource.Failure -> {
                     handleApiError(it)
@@ -51,6 +52,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         binding.logoutButton.setOnClickListener {
             logout()
+            val userPreferences = UserPreferences(requireContext())
         }
     }
 

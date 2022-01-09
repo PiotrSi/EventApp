@@ -13,14 +13,8 @@
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="phone">Phone</string>
-    <string-array name="planets_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
-    </string-array>
+
+
+    <!--    Analyze F-->
+    <string name="no_events_chart">In recent months you have not attended any events</string>
 </resources>

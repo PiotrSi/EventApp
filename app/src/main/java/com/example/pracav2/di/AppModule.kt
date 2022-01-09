@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    @Singleton
+
     @Provides
     fun provideAuthApi(
         remoteDataSource: RemoteDataSource,
@@ -24,7 +24,7 @@ object AppModule {
         return remoteDataSource.buildApi(AuthApi::class.java, context )
     }
 
-    @Singleton
+
     @Provides
     fun provideUserApi(
         remoteDataSource: RemoteDataSource,

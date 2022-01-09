@@ -2,7 +2,6 @@ package com.example.pracav2.ui.home
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -38,66 +37,47 @@ class HomeFragment : Fragment(R.layout.fragment_home), RecyclerViewClickListener
         binding = FragmentHomeBinding.bind(view)
 
 
-
-        val userPreferences = UserPreferences(requireContext())
-        val token: String? = runBlocking { userPreferences.accessToken.first() }
-        if (token != null) {
-//            viewModel.getEvents("Bearer $token")
             viewModel.getEvents()
-        }
 
-        setapRecyclerview()
+        setupRecyclerview()
 
-        viewModel.event.observe(viewLifecycleOwner, Observer { it ->
-            when (it) {
+        viewModel.event.observe(viewLifecycleOwner, Observer { event ->
+            when (event) {
                 is Resource.Success -> {
                     binding.progressbar.visible(false)
-                    myAdapter.setData(it.value)
-//                    it.value.forEach{
-//                        if(it.czyZapisano){
-////                            myEvents.add(it)
-//                        }else {it.id}
-//                    }
-//                    binding.recyclerView.apply{
-//                        setHasFixedSize(true)
-//                        layoutManager = LinearLayoutManager(activity)
-//                        binding.recyclerView.adapter = EventsViewAdapter(it.value, this@HomeFragment)
-//                    }
+                    var  myEvents :ArrayList<EventResponseItem> = arrayListOf()
+                    event.value.forEach{
+                        if(it.statusEvent == "ZAAKCEPTOWANY"){
+                            myEvents.add(it)
+                        }
+                    }
+                    if(myEvents.isEmpty()) {
+                        binding.textView2.visibility = View.VISIBLE
+                    }else{
+                        binding.textView2.visibility = View.GONE
+                        myAdapter.setData(myEvents)
+                    }
                 }
                 is Resource.Loading -> {
                     binding.progressbar.visible(true)
                 }
                 is Resource.Failure -> {
-                    handleApiError(it)
+                    binding.progressbar.visible(false)
+                    event.isNetworkError
+                    handleApiError(event)
                 }
             }
-
-//            viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
-//                recycler_view_movies.also {
-//                    it.layoutManager = LinearLayoutManager(requireContext())
-//                    it.setHasFixedSize(true)
-//                    it.adapter = MoviesAdapter(movies, this)
-//                }
-//            })
-//            binding.recyclerView.apply {
-//                setHasFixedSize(true)
-//                layoutManager = LinearLayoutManager(this@MainActivity)
-//                ConstraintLayoutManager
-//            }
         })
 
 
 
 
         binding.buttonLogout.setOnClickListener {
-            //val action = HomeFragmentDirections.actionHomeFragment2ToDescriptionFragment()
-            //findNavController().navigate(action)
-            //view.findNavController().navigate(R.id.action_homeFragment_to_descriptionFragment)
             logout()
         }
     }
 
-    private fun setapRecyclerview(){
+    private fun setupRecyclerview(){
         binding.recyclerView.adapter = myAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
     }

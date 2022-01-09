@@ -58,12 +58,11 @@ class RegisterFragment : Fragment(R.layout.fragment_register), AdapterView.OnIte
                         val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,list)
 
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
                         // Apply the adapter to the spinner
                         binding.spinner.adapter = adapter
-
 //                        }
 //                        val depResponseItem : DepResponseItem = it.value.get(2)
-
                     }
                 }
                 is Resource.Failure ->{
@@ -78,13 +77,14 @@ class RegisterFragment : Fragment(R.layout.fragment_register), AdapterView.OnIte
             when(it){
                 is Resource.Success ->{
                     lifecycleScope.launch {
-
+                        Toast.makeText(requireContext(), it.value.message , Toast.LENGTH_SHORT).show()
                         view.findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
 
                     }
                 }
                 is Resource.Failure ->{
-                    Toast.makeText(requireContext(), "something went wrong", Toast.LENGTH_SHORT).show()
+                    if(it.errorCode == 400)
+                    Toast.makeText(requireContext(), "Email is already taken", Toast.LENGTH_SHORT).show()
                 }
                 Resource.Loading -> TODO()
             }
@@ -126,14 +126,12 @@ class RegisterFragment : Fragment(R.layout.fragment_register), AdapterView.OnIte
             binding.login.error = "Required"
             check = false
         }else if(!isValidEmail(email)){
-            binding.login.error = "Invalid email"
+            binding.login.error = "pollub.edu.pl domain required"
             check = false
         }
-
         if(password.isEmpty()){
             binding.password.error = "Required"
             check = false
-
         }else if(!isValidPassword(password)){
             binding.password.error ="Password :\n" +
                     "* at least 1 special character \n" +
@@ -141,7 +139,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register), AdapterView.OnIte
                     "* at least 6 characters"
             check = false
         }
-
         if(passwordR.isEmpty()){
             binding.passwordRepeat.error = "Required"
             check = false
@@ -149,7 +146,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register), AdapterView.OnIte
             binding.passwordRepeat.error = "Different  Passwords"
             check = false
         }
-
         return check
     }
 

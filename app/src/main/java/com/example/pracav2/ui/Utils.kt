@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.pracav2.data.network.Resource
 import com.example.pracav2.ui.auth.LoginFragment
+import com.example.pracav2.ui.auth.RegisterFragment
 import com.example.pracav2.ui.home.HomeActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -61,6 +62,10 @@ fun Fragment.handleApiError(
             } else {
                 logout()
             }
+            if (this is RegisterFragment) {
+                requireView().snackbar("You've entered incorrect email or password")
+            }
+
         }
         else -> {
             val error = failure.errorBody?.string().toString()

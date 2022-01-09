@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pracav2.data.network.Resource
@@ -34,7 +33,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), RecyclerViewCli
 
         setupRecyclerview()
 
-        viewModel.event.observe(viewLifecycleOwner, Observer {event->
+        viewModel.event.observe(viewLifecycleOwner, { event->
             when (event) {
                 is Resource.Success -> {
                     binding.progressbar.visible(false)
@@ -56,6 +55,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), RecyclerViewCli
                     binding.progressbar.visible(true)
                 }
                 is Resource.Failure -> {
+                    binding.progressbar.visible(false)
                     handleApiError(event)
                 }
             }

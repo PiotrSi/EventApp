@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.pracav2.data.network.Resource
 import com.example.pracav2.databinding.FragmentAnalyzeBinding
@@ -28,23 +27,17 @@ class AnalyzeFragment : Fragment(R.layout.fragment_analyze) {
     private lateinit var binding: FragmentAnalyzeBinding
     private val viewModel by viewModels<HomeViewModel>()
 
-//    lateinit var barList: ArrayList<BarEntry>
-//    lateinit var barDataSet: BarDataSet
-//    lateinit var barData: BarData
 
-     var pieList: ArrayList<PieEntry> =ArrayList()
-    lateinit var pieDataSet: PieDataSet
-    lateinit var pieData: PieData
+     private var pieList: ArrayList<PieEntry> =ArrayList()
+    private lateinit var pieDataSet: PieDataSet
+    private lateinit var pieData: PieData
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAnalyzeBinding.bind(view)
 
         var eventInMonth = intArrayOf(0,0,0,0,0,0,0,0,0,0,0,0)
-//        var eventInMonth = IntArray(12)
-        eventInMonth.forEach {
-//            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
-        }
+
         val toolbar: Toolbar = binding.toolbar
         toolbar.title = "Chart"
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
@@ -55,10 +48,9 @@ class AnalyzeFragment : Fragment(R.layout.fragment_analyze) {
         }
         viewModel.getEvents()
 
-        viewModel.event.observe(viewLifecycleOwner, Observer {event->
+        viewModel.event.observe(viewLifecycleOwner, { event->
             when (event) {
                 is Resource.Success -> {
-//                    binding.progressbar.visible(false)
 
                     var data = false
                     var calBefore = Calendar.getInstance()
@@ -67,11 +59,7 @@ class AnalyzeFragment : Fragment(R.layout.fragment_analyze) {
                     var calAfter = Calendar.getInstance()
                     calAfter.add(Calendar.MONTH, +1)
                     calAfter.set(Calendar.DAY_OF_MONTH, 1)
-//                    calAfter.set(Calendar.DAY_OF_MONTH, calAfter.getActualMaximum(Calendar.DAY_OF_MONTH))
 
-                    Log.d("DATABEFORE", calAfter.get(Calendar.MONTH).toString()+calAfter.get(Calendar.YEAR).toString())
-                    Log.d("DATA", Calendar.getInstance().get(Calendar.MONTH).toString())
-//                    var  myEvents :ArrayList<EventResponseItem> = arrayListOf()
                     event.value.forEach{
                         if(it.czyZapisano) {
                             var cal2 = Calendar.getInstance()
@@ -93,9 +81,7 @@ class AnalyzeFragment : Fragment(R.layout.fragment_analyze) {
                                 "11" -> eventInMonth[11] += 1
                             }
                         }
-
-//                            myEvents.add(it)
-                        }//else {it.id}
+                        }
                     }
 
 
@@ -103,7 +89,7 @@ class AnalyzeFragment : Fragment(R.layout.fragment_analyze) {
                         insertData(eventInMonth)
                         setUp()
                     }else{
-                        binding.textView4.text = "In recent months you have not attended any events"
+                        binding.textView4.text = R.string.no_events_chart.toString()
                     }
                 }
                 is Resource.Loading -> {
@@ -117,8 +103,6 @@ class AnalyzeFragment : Fragment(R.layout.fragment_analyze) {
 
     }
     private fun setUp(){
-//        binding.chart.setNoDataText("asaSAS")
-//        binding.chart.invalidate()
         binding.chart.visibility =View.VISIBLE
         pieDataSet = PieDataSet(pieList, "Legend")
         pieData = PieData(pieDataSet)
@@ -130,24 +114,18 @@ class AnalyzeFragment : Fragment(R.layout.fragment_analyze) {
         binding.chart.legend.isEnabled = false
         binding.chart.centerText = "Your events in the last 6 months"
         binding.chart.setCenterTextSize(15f)
-
-
     }
+
     private val vf: ValueFormatter = object : ValueFormatter() {
         //value format here, here is the overridden method
         override fun getFormattedValue(value: Float): String {
             return "" + value.toInt()
         }
     }
-    private fun date(date : Date):String{
+    private fun date(date: Date): String {
         val cal = Calendar.getInstance()
         cal.time = date
-        val year = cal.get(Calendar.YEAR).toString()
-        val month = cal.get(Calendar.MONTH).toString()
-        val day = cal.get(Calendar.DAY_OF_MONTH).toString()
-        val hour = cal.get(Calendar.HOUR_OF_DAY).toString()
-        val min = cal.get(Calendar.MINUTE).toString()
-        return month
+        return cal.get(Calendar.MONTH).toString()
     }
 
     private fun insertData(eventInMonth : IntArray){

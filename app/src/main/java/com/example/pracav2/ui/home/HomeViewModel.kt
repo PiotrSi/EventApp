@@ -28,9 +28,6 @@ class HomeViewModel @Inject constructor(
     val enroll: MutableLiveData<Resource<MessageResponse>>
         get() = _enroll
 
-    private val _user: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
-    val user: MutableLiveData<Resource<MessageResponse>>
-        get() = _user
 
     private val _userInfo: MutableLiveData<Resource<UserInfoResponse>> = MutableLiveData()
     val userInfo: MutableLiveData<Resource<UserInfoResponse>>
@@ -40,11 +37,7 @@ class HomeViewModel @Inject constructor(
     val rate: MutableLiveData<Resource<MessageResponse>>
         get() = _rate
 
-//    private val _userDetail: MutableLiveData<Resource<User>>
 
-    fun getUser()= viewModelScope.launch {
-        _user.value = repository.getUser()
-    }
 
     fun getUserInfo()= viewModelScope.launch {
         _userInfo.value = repository.getUserInfo()

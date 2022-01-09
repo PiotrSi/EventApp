@@ -26,7 +26,7 @@ class RemoteDataSource @Inject constructor() {
         val token = runBlocking { userPreferences.accessToken.first() }
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-        val authenticator = TokenAuthenticator(context, buildTokenApi())
+//        val authenticator = TokenAuthenticator(context, buildTokenApi())
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(getRetrofitClient(null,token))
